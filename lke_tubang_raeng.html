@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Desa Cantik</title>
+  <link rel="stylesheet" href="Dashboard.css" />
+</head>
+
+  <style>
+  body.halaman-tutorial footer {
+  margin-top: 10px; /* tambahin jarak ke atas */
+  }
+  </style>
+
+<body class="halaman-tutorial">
+  <header>
+  <div class="logo">
+    <img src="Logo Header.png" alt="Logo LANTIK">
+  </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="materi.html">Materi</a></li>
+        <li><a class="active" href="lke.html">LKE</a></li>
+        <li><a href="monitoring.html">Monitoring</a></li>
+        <li><a href="arsip.html">Arsip</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  
+ <section class="materi" id="materi">
+  <h2>LKE Tubang Raeng</h2>
+  <div class="materi-grid">
+    <a href="lke_tubang_raeng_desa.html" class="materi-box">LKE Desa Tubang Raeng</a>
+    <a href="lke_tubang_raeng_kab.html" class="materi-box">LKE Kako Tubang Raeng</a>
+  </div>
+  
+
+<div style="position: absolute; top: 80px; right: 130px; z-index: 1000;">
+  <button onclick="logout()" style="
+    padding: 8px 16px;
+    background-color: rgb(200, 68, 94);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+  " onmousedown="this.style.transform='scale(0.95)'" onmouseup="this.style.transform='scale(1)'">
+    Logout
+  </button>
+</div>
+
+
+</section>
+   
+
+<footer>
+    <p>Hak Cipta © 2025 Kadek Didik Permana Putra</p>
+  <div class="footer-sosmed">
+    <a href="https://shorturl.at/7vg0b" target="_blank">
+      <img src="FB.png" alt="fb" class="logo-fb">
+    </a>
+    <a href="https://www.instagram.com/bpskablandak/" target="_blank">
+      <img src="IG.png" alt="ig" class="logo-ig">
+    </a>
+    <a href="https://x.com/bps_statistics" target="_blank">
+      <img src="X.png" alt="x" class="logo-x">
+    </a>
+    <a href="https://shorturl.at/jsgkQ" target="_blank">
+      <img src="YT.png" alt="yt" class="logo-yt">
+    </a>
+  </div>
+</footer>
+
+    <script>
+    // Fungsi logout
+    function logout() {
+      sessionStorage.clear();
+      window.location.href = "lke.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Desa Cantik</title>
+  <link rel="stylesheet" href="Dashboard.css" />
+  
+  <style>
+  .btn-kembali {
+  position: absolute;
+  top: 580px;      /* jarak dari atas halaman (sesuaikan tinggi header kamu) */
+  left: 150px;     /* jarak dari sisi kiri */
+  padding: 10px 20px;
+  background-color: #125bda;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+  }
+
+  body.halaman-tutorial footer {
+  margin-top: 10px; /* tambahin jarak ke atas */
+  }
+  </style>
+
+</head>
+
+<body class="halaman-tutorial">
+  <header>
+  <div class="logo">
+    <img src="Logo Header.png" alt="Logo LANTIK">
+  </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a class="active" href="materi.html">Materi</a></li>
+        <li><a href="lke.html">LKE</a></li>
+        <li><a href="monitoring.html">Monitoring</a></li>
+        <li><a href="arsip.html">Arsip</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="materi" id="materi">
+    <button onclick="history.back()" class="btn-kembali">Kembali</button>
+    <h2>Materi Pembelajaran Desa Cantik</h2>
+    <div class="materi-grid">
+      <a href="profil-desa.html" class="materi-box">Profil Desa</a>
+      <a href="monografi.html" class="materi-box">Monografi</a>
+      <a href="leaflet-booklet.html" class="materi-box">Leaflet dan Booklet</a>
+    </div>
+  </section>
+    
+<footer>
+    <p>Hak Cipta © 2025 Kadek Didik Permana Putra</p>
+  <div class="footer-sosmed">
+    <a href="https://shorturl.at/7vg0b" target="_blank">
+      <img src="FB.png" alt="fb" class="logo-fb">
+    </a>
+    <a href="https://www.instagram.com/bpskablandak/" target="_blank">
+      <img src="IG.png" alt="ig" class="logo-ig">
+    </a>
+    <a href="https://x.com/bps_statistics" target="_blank">
+      <img src="X.png" alt="x" class="logo-x">
+    </a>
+    <a href="https://shorturl.at/jsgkQ" target="_blank">
+      <img src="YT.png" alt="yt" class="logo-yt">
+    </a>
+  </div>
+</footer>
+</body>
+</html>

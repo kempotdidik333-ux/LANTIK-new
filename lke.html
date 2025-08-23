@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Desa Cantik</title>
+  <link rel="stylesheet" href="Dashboard.css" />
+</head>
+
+<style>
+  body.halaman-tutorial footer {
+  margin-top: 10px; /* tambahin jarak ke atas */
+}
+</style>
+
+<body class="halaman-tutorial"> 
+  <header>
+  <div class="logo">
+    <img src="Logo Header.png" alt="Logo LANTIK">
+  </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="materi.html">Materi</a></li>
+        <li><a class="active" href="lke.html">LKE</a></li>
+        <li><a href="monitoring.html">Monitoring</a></li>
+        <li><a href="arsip.html">Arsip</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<section class="materi" id="materi">
+  <h2>Lembar Kerja Evaluasi (LKE) Desa Cantik</h2>
+  <div class="materi-grid">
+    <!-- Kembali ke <a> agar bisa pakai href dengan query string, style tetap karena pakai class yang sama -->
+    <a href="login.html?desa=tubang_raeng" class="materi-box">Desa Tubang Raeng</a>
+    <a href="login.html?desa=mandor_kiru" class="materi-box">Desa Mandor Kiru</a>
+    <!-- Tambahkan desa lain di sini jika perlu -->
+  </div>
+</section>
+
+<footer>
+    <p>Hak Cipta © 2025 Kadek Didik Permana Putra</p>
+  <div class="footer-sosmed">
+    <a href="https://shorturl.at/7vg0b" target="_blank">
+      <img src="FB.png" alt="fb" class="logo-fb">
+    </a>
+    <a href="https://www.instagram.com/bpskablandak/" target="_blank">
+      <img src="IG.png" alt="ig" class="logo-ig">
+    </a>
+    <a href="https://x.com/bps_statistics" target="_blank">
+      <img src="X.png" alt="x" class="logo-x">
+    </a>
+    <a href="https://shorturl.at/jsgkQ" target="_blank">
+      <img src="YT.png" alt="yt" class="logo-yt">
+    </a>
+  </div>
+</footer>
+ 
+
+  <!-- Tambahan script -->
+  <script>
+    function pilihDesa(namaDesa) {
+      localStorage.setItem("desaDipilih", namaDesa);
+      window.location.href = "login.html?desa=" + namaDesa;
+    }
+  </script>
+</body>
+</html>

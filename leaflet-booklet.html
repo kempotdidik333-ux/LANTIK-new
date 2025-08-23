@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Desa Cantik</title>
+  <link rel="stylesheet" href="Dashboard.css" />
+</head>
+
+<body>
+  <header>
+  <div class="logo">
+    <img src="Logo Header.png" alt="Logo LANTIK">
+  </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a class="active" href="materi.html">Materi</a></li>
+        <li><a href="lke.html">LKE</a></li>
+        <li><a href="monitoring.html">Monitoring</a></li>
+        <li><a href="arsip.html">Arsip</a></li>
+      </ul>
+    </nav>
+  </header>
+
+<style>
+  .btn-kembali {
+  position: fixed;
+  left: 80px;
+  bottom: 20px;
+  padding: 10px 20px;
+  background-color: #125bda;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: bottom 0.3s;
+}
+
+.footer {
+  background: #0044cc;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+</style>
+
+  
+<section class="materi-umum" id="materi-umum">
+  <div class="btn-wrapper">
+  <button onclick="history.back()" class="btn-kembali">Kembali</button>
+  </div> 
+    <!-- Tutorial Membuat Leaflet Bagian 1 -->
+  <div class="ppt-wrapper">
+    <h2 class="judul-ppt">1. Tutorial Membuat Leaflet di Canva (Bagian 1)</h2>
+    <div class="ppt-container">
+      <iframe 
+        src="https://www.youtube.com/embed/ubdgKqVZvt0"
+        frameborder="0"
+        allowfullscreen
+        class="ppt-iframe">
+      </iframe>
+    </div>
+  </div>
+
+
+<!-- Tutorial Membuat Leaflet Bagian 2 -->
+<div class="ppt-wrapper">
+  <h2 class="judul-ppt">2. Tutorial Membuat Leaflet di Canva (Bagian 2)</h2>
+  <div class="ppt-container">
+    <iframe src="https://drive.google.com/file/d/1K1Jvn4Rma1yb-q9drF_NhUBFwRWx_Ct6/preview" 
+            width="640" height="480" 
+            allow="autoplay" 
+            allowfullscreen 
+            class="ppt-iframe"></iframe>
+  </div>
+</div>
+
+
+    <!-- Tutorial Membuat Booklet di Canva -->
+  <div class="ppt-wrapper">
+    <h2 class="judul-ppt">3. Tutorial Membuat Booklet di Canva</h2>
+    <div class="ppt-container">
+      <iframe 
+        src="https://www.youtube.com/embed/nOdrrNAdvyw"
+        frameborder="0"
+        allowfullscreen
+        class="ppt-iframe">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+    <p>Hak Cipta © 2025 Kadek Didik Permana Putra</p>
+  <div class="footer-sosmed">
+    <a href="https://shorturl.at/7vg0b" target="_blank">
+      <img src="FB.png" alt="fb" class="logo-fb">
+    </a>
+    <a href="https://www.instagram.com/bpskablandak/" target="_blank">
+      <img src="IG.png" alt="ig" class="logo-ig">
+    </a>
+    <a href="https://x.com/bps_statistics" target="_blank">
+      <img src="X.png" alt="x" class="logo-x">
+    </a>
+    <a href="https://shorturl.at/jsgkQ" target="_blank">
+      <img src="YT.png" alt="yt" class="logo-yt">
+    </a>
+  </div>
+</footer>
+
+    <script>
+    window.addEventListener("scroll", function () {
+    const btn = document.querySelector(".btn-kembali");
+    const footer = document.querySelector("footer");
+    const footerRect = footer.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    if (footerRect.top < windowHeight) {
+    // kalau footer sudah kelihatan, naikkan tombol
+    btn.style.bottom = (windowHeight - footerRect.top + 20) + "px";
+    } else {
+    // posisi normal
+    btn.style.bottom = "20px";
+    }
+    });
+  </script>
+</body>
+</html>

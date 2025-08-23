@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    color: white;
+    overflow: hidden;
+    background: linear-gradient(180deg, #0a1e3f, #1a3a6d, #0a1e3f);
+  }
+
+  /* Lapisan aurora */
+  body::before,
+  body::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      from 0deg,
+      rgba(0,102,204,0.3),   /* biru */
+      rgba(0,204,102,0.3),   /* hijau */
+      rgba(255,153,51,0.3),  /* oranye */
+      rgba(0,102,204,0.3)
+    );
+    animation: auroraWaves 20s linear infinite;
+    mix-blend-mode: screen;
+    filter: blur(160px);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  body::after {
+    animation: auroraWavesReverse 25s linear infinite;
+    opacity: 0.6;
+  }
+
+  @keyframes auroraWaves {
+    0%   { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+  @keyframes auroraWavesReverse {
+    0%   { transform: rotate(360deg) scale(1); }
+    50%  { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
+
+  /* Kotak utama putih polos */
+  .container {
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    background: #fff; /* putih solid */
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1; /* biar di atas aurora */
+    transition: 0.3s ease;
+    color: #333; /* teks dalam container jadi gelap */
+  }
+
+  .container header {
+    font-size: 1.6rem;
+    color: #111;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .container .desa-info {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #444;
+    text-align: center;
+  }
+
+  .form {
+    margin-top: 30px;
+  }
+
+  .input-box {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .input-box label {
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  .input-box input {
+    height: 50px;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    color: #111;
+    margin-top: 8px;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 0 15px;
+    background: #fff;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .input-box input:focus {
+    box-shadow: 0 0 6px rgba(100, 179, 244, 0.8);
+    border-color: #64b3f4;
+  }
+
+  .form button {
+    position: relative;
+    height: 45px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 30px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #00b4db, #00cc66, #ff9933);
+    background-size: 200% 200%;
+    animation: gradientShift 6s ease infinite;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+  }
+
+  .form button:hover {
+    box-shadow: 0 4px 15px rgba(0, 179, 219, 0.6);
+  }
+
+  .form button:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  .form button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .spinner {
+    display: none;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: translateY(-50%) rotate(360deg); }
+  }
+
+  #loginError {
+    color: #ff4d4d;
+    display: none;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 500px) {
+    .container { padding: 20px; }
+  }
+</style>
+
+
+
+<section class="container">
+  <header>Login Pengguna</header>
+  <div class="desa-info" id="desaInfo"></div>
+  <form id="loginForm" class="form">
+    <div class="input-box">
+      <label>Username</label>
+      <input type="text" id="username" required>
+    </div>
+    <div class="input-box">
+      <label>Password</label>
+      <input type="password" id="password" required>
+    </div>
+    <button type="submit">
+      Login <span class="spinner"></span>
+    </button>
+    <p id="loginError">Username atau password salah.</p>
+  </form>
+</section>
+
+<script>
+  // Fungsi untuk memformat nama desa dari "tubang_raeng" jadi "Tubang Raeng"
+  function formatNamaDesa(desa) {
+    return desa
+      .split('_')
+      .map(kata => kata.charAt(0).toUpperCase() + kata.slice(1))
+      .join(' ');
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const desaQuery = urlParams.get("desa");
+
+  let desa = "";
+
+  if (desaQuery) {
+    desa = desaQuery;
+    localStorage.setItem("desaDipilih", desaQuery);
+  } else {
+    desa = localStorage.getItem("desaDipilih");
+  }
+
+  if (!desa) {
+    alert("Tidak ada desa yang dipilih. Silakan kembali dan pilih desa.");
+    window.location.href = "materi-umum.html";
+  }
+
+  document.getElementById("desaInfo").innerText = "Desa yang dipilih: " + formatNamaDesa(desa);
+
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzyIFUIZYFrjfaiCTXMY2IK4nwSKD8EpbD3tAoC81kbvHIHSVnZygNp6fgNjpmtAxM/exec';
+
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const spinner = document.querySelector(".spinner");
+    const button = document.querySelector("button[type='submit']");
+
+    spinner.style.display = "inline-block";
+    button.disabled = true;
+
+    fetch(scriptURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({ username, password, desa })
+    })
+    .then(res => res.json())
+    .then(data => {
+      spinner.style.display = "none";
+      button.disabled = false;
+
+      if (data.status === "success") {
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("desa", desa);
+        window.location.href = `lke_${desa.toLowerCase().replace(/\s+/g, '_')}.html`;
+      } else {
+        document.getElementById("loginError").style.display = "block";
+      }
+    })
+    .catch(error => {
+      spinner.style.display = "none";
+      button.disabled = false;
+      alert("Gagal terhubung ke server.");
+      console.error(error);
+    });
+  });
+</script>
+
+</body>
+</html>

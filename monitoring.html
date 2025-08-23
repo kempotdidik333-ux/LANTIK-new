@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Desa Cantik - Monitoring</title>
+  <link rel="stylesheet" href="Dashboard.css" />
+  <style>
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    } 
+
+    main {
+    flex: 1;
+    }
+    
+    body { 
+    margin: 0; 
+    font-family: 'Arial', sans-serif; 
+    background: #fff; 
+    }
+    
+    nav ul li a.active { 
+    font-weight: bold; 
+    text-decoration: underline; 
+    }
+    
+    main { 
+    padding: 30px; 
+    }
+    
+    table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    }
+    
+    th { 
+    background-color: #03955f; 
+    color: white; 
+    padding: 10px; 
+    text-align: center; 
+    }
+    
+    td { 
+    padding: 10px; 
+    text-align: center; 
+    border-bottom: 1px solid #ddd; 
+    }
+    
+    main h2 {
+    text-align: center;   /* bikin teks rata tengah */
+    font-size: 28px;      /* opsional: perbesar font */
+    margin: 10px 0;       /* kasih jarak atas bawah */
+    }
+    .progress-bar { 
+    background: #e0e0e0; 
+    height: 14px; 
+    border-radius: 7px; 
+    overflow: hidden; 
+    width: 100px; 
+    margin: 5px auto; 
+    }
+    
+    .progress-bar-fill { 
+    height: 100%; 
+    background-color: #069360; 
+    width: 0%; 
+    transition: width 0.5s ease; 
+    }
+    
+    select, button { 
+    padding: 6px 10px; 
+    border: 1px solid #069360; 
+    border-radius: 4px; 
+    font-size: 14px; 
+    }
+    
+    button { 
+    background-color: #03955f; 
+    color: white; 
+    cursor: pointer; 
+    }
+    
+    button:hover { 
+    background-color: #016f45; 
+    }
+    
+    .indikator-list { 
+    font-size: 12px; 
+    color: #666; 
+    margin-top: 5px; 
+    text-align: left; 
+    }
+  </style>
+
+</head>
+<body>
+  <header>
+  <div class="logo">
+    <img src="Logo Header.png" alt="Logo LANTIK">
+  </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="materi.html">Materi</a></li>
+        <li><a href="lke.html">LKE</a></li>
+        <li><a class="active" href="monitoring.html">Monitoring</a></li>
+        <li><a href="arsip.html">Arsip</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Monitoring Penilaian Desa</h2>
+
+    <!-- Filter -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+      <select id="filter-kecamatan">
+        <option value="">Pilih Kecamatan</option>
+      </select>
+      <select id="filter-desa">
+        <option value="">Pilih Desa</option>
+      </select>
+      <select id="filter-tipe">
+        <option value="">Pilih Jenis LKE</option>
+        <option value="LKE Desa">LKE Desa</option>
+        <option value="LKE Kabupaten/Kota">LKE Kabupaten/Kota</option>
+      </select>
+      <button onclick="resetFilter()">Reset Filter</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Kecamatan</th>
+          <th>Desa/Kelurahan</th>
+          <th>Jenis LKE</th>
+          <th>Preview</th>
+          <th>Progres</th>
+        </tr>
+      </thead>
+      <tbody id="monitoring-body">
+        <tr><td colspan="6">Memuat data...</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    let dataMonitoring = [];
+
+    const indikatorLkeDesa = [3, 15, 8];
+    const indikatorLkeKab = [9, 3, 3];
+
+    async function fetchData() {
+      try {
+        const urls = [
+          'https://script.google.com/macros/s/AKfycbxhusVXkMSXOiwfigHgi7H6857Fy0VOD5wP2vKfwvv7Na3GUu338YltNMK7pZxnw0mJRg/exec',
+          'https://script.google.com/macros/s/AKfycbyR4ZBbmz-w21Dkc02Ac3nmpmhUpdm2kpPB1rEFZ6V47Ja20kks7-f1s1yAfYcLdWrY4Q/exec',
+          'https://script.google.com/macros/s/AKfycby5WUhO-RkvBSEJHQkJl38J82mjDs0pubAK-aTITW2saG-5ol0xHEUB3zaE2swol8rS/exec', //lke kako tubang raeng
+          'https://script.google.com/macros/s/AKfycbycVZCMxwoGgw1nTd9WsnvNIU7pgCjKIPEkH9XmZhyG-X2ZqfAU461p_VXw50wneVoTHg/exec' //lke kako mandor kiru
+        ];
+
+        const responses = await Promise.all(urls.map(url => fetch(url)));
+        const jsonArrays = await Promise.all(responses.map(r => r.json()));
+
+        dataMonitoring = jsonArrays.flatMap(json => {
+          return (json.data || []).map(item => {
+            const desa = (item.desa || "").toLowerCase();
+            let kecamatan = "";
+            if (desa.includes("tubang raeng")) {
+              kecamatan = "Jelimpo";
+            } else if (desa.includes("mandor kiru")) {
+              kecamatan = "Jelimpo";
+            }
+
+            const indikator = item.indikator || [];
+            let total = [];
+            if (item.tipe === "LKE Desa") {
+              total = indikatorLkeDesa;
+            } else {
+              total = indikatorLkeKab;
+            }
+
+            const jumlahTerisi = indikator.reduce((sum, ind) => sum + (ind.terisi || 0), 0);
+            const jumlahTotal = total.reduce((sum, t) => sum + t, 0);
+            const nilai = jumlahTotal > 0 ? Math.round((jumlahTerisi / jumlahTotal) * 100) : 0;
+
+            const rincian = indikator
+              .map((ind, idx) => `Indikator ${idx + 1}: ${ind.terisi || 0}/${ind.total || total[idx]}`)
+              .join('<br>');
+
+            return {
+              ...item,
+              kecamatan,
+              nilai,
+              rincian
+            };
+          });
+        });
+
+        populateKecamatanOptions();
+        renderDesaOptions();
+        renderTable(dataMonitoring);
+      } catch (err) {
+        console.error('Gagal mengambil data:', err);
+        document.getElementById("monitoring-body").innerHTML = `<tr><td colspan="6">Gagal memuat data</td></tr>`;
+      }
+    }
+
+    function populateKecamatanOptions() {
+      const kecamatanSelect = document.getElementById("filter-kecamatan");
+      kecamatanSelect.innerHTML = `<option value="">Pilih Kecamatan</option>`;
+      const kecamatanList = [...new Set(dataMonitoring.map(item => item.kecamatan))];
+      kecamatanList.forEach(kec => {
+        const opt = document.createElement("option");
+        opt.value = kec;
+        opt.textContent = kec;
+        kecamatanSelect.appendChild(opt);
+      });
+    }
+
+    function renderDesaOptions() {
+      const kecamatan = document.getElementById("filter-kecamatan").value;
+      const desaSelect = document.getElementById("filter-desa");
+      desaSelect.innerHTML = `<option value="">Pilih Desa</option>`;
+      const desaList = [...new Set(
+        dataMonitoring.filter(item => !kecamatan || item.kecamatan === kecamatan).map(item => item.desa)
+      )];
+      desaList.forEach(desa => {
+        const opt = document.createElement("option");
+        opt.value = desa;
+        opt.textContent = desa;
+        desaSelect.appendChild(opt);
+      });
+    }
+
+    function renderTable(data) {
+      const tbody = document.getElementById("monitoring-body");
+      tbody.innerHTML = "";
+      if (!data.length) {
+        tbody.innerHTML = `<tr><td colspan="6">Belum ada data sesuai filter</td></tr>`;
+        return;
+      }
+      data.forEach((item, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${item.kecamatan}</td>
+          <td>${item.desa}</td>
+          <td>${item.tipe}</td>
+          <td><button onclick="openLKE('${item.tipe}', '${item.kecamatan}', '${item.desa}')">Buka LKE</button></td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width:${item.nilai}%"></div>
+            </div>
+            <small>${item.nilai}%</small>
+            <div class="indikator-list">${item.rincian}</div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function filterData() {
+      const kecamatan = document.getElementById("filter-kecamatan").value;
+      const desa = document.getElementById("filter-desa").value;
+      const tipe = document.getElementById("filter-tipe").value;
+      const filtered = dataMonitoring.filter(item =>
+        (!kecamatan || item.kecamatan === kecamatan) &&
+        (!desa || item.desa === desa) &&
+        (!tipe || item.tipe === tipe)
+      );
+      renderTable(filtered);
+    }
+
+    function resetFilter() {
+      document.getElementById("filter-kecamatan").value = "";
+      document.getElementById("filter-desa").innerHTML = `<option value="">Pilih Desa</option>`;
+      document.getElementById("filter-tipe").value = "";
+      renderTable(dataMonitoring);
+    }
+
+    function openLKE(tipe, kecamatan, desa) {
+      if (tipe === "LKE Kabupaten/Kota") {
+        window.location.href = `login.html?kecamatan=${encodeURIComponent(kecamatan)}&desa=${encodeURIComponent(desa)}`;
+      } else {
+        window.location.href = `login.html?kecamatan=${encodeURIComponent(kecamatan)}&desa=${encodeURIComponent(desa)}`;
+      }
+    }
+
+    document.getElementById("filter-kecamatan").addEventListener("change", () => {
+      renderDesaOptions();
+      filterData();
+    });
+    document.getElementById("filter-desa").addEventListener("change", filterData);
+    document.getElementById("filter-tipe").addEventListener("change", filterData);
+
+    fetchData();
+  </script>
+
+<footer>
+    <p>Hak Cipta © 2025 Kadek Didik Permana Putra</p>
+  <div class="footer-sosmed">
+    <a href="https://shorturl.at/7vg0b" target="_blank">
+      <img src="FB.png" alt="fb" class="logo-fb">
+    </a>
+    <a href="https://www.instagram.com/bpskablandak/" target="_blank">
+      <img src="IG.png" alt="ig" class="logo-ig">
+    </a>
+    <a href="https://x.com/bps_statistics" target="_blank">
+      <img src="X.png" alt="x" class="logo-x">
+    </a>
+    <a href="https://shorturl.at/jsgkQ" target="_blank">
+      <img src="YT.png" alt="yt" class="logo-yt">
+    </a>
+  </div>
+</footer>
+</body>
+</html>

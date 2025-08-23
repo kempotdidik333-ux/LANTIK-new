@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Desa Cantik</title>
+  <link rel="stylesheet" href="Dashboard.css" />
+</head>
+
+<body>
+  <header>
+  <div class="logo">
+    <img src="Logo Header.png" alt="Logo LANTIK">
+  </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="materi.html">Materi</a></li>
+        <li><a class="active" href="lke.html">LKE</a></li>
+        <li><a href="monitoring.html">Monitoring</a></li>
+        <li><a href="arsip.html">Arsip</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <title>Form LKE Bertingkat (Format Excel)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 90%;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+      margin: 0 auto;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      vertical-align: middle;
+      text-align: center;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+
+    th:nth-child(1), td:nth-child(1) { width: 6%; }
+    th:nth-child(2), td:nth-child(2) { width: 25%; }
+    th:nth-child(3), td:nth-child(3) { width: 9%; }
+    th:nth-child(4), td:nth-child(4) { width: 5%; }
+    th:nth-child(5), td:nth-child(5) { width: 27%; }
+    th:nth-child(6), td:nth-child(6) { width: 27%; }
+    th:nth-child(7), td:nth-child(7) { width: 1%; }
+
+    th {
+      background: #003049;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background: #f1f1f1;
+    }
+
+
+    .skor, .penjelasan-text, .syarat {
+      display: inline-block;
+      padding: 6px 12px;
+      background: transparent;
+      border-radius: 4px;
+    }
+
+    input[type="file"] {
+      margin: 5px 0;
+    }
+
+    button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      background: #01774c;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    button:disabled {
+      background: #ccc;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .kirim {
+      background: #0077b6;
+    }
+
+    .kirim:hover:not(:disabled) {
+      background: #0096c7;
+      top: 2px;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+    }
+
+    .kirim:active:not(:disabled) {
+      top: 4px;
+      box-shadow: none;
+    }
+
+    .upload-ulang {
+      background: #d00000;
+    }
+
+    .upload-ulang:hover:not(:disabled) {
+      background: #e63946;
+      top: 2px;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+    }
+
+    .upload-ulang:active:not(:disabled) {
+      top: 4px;
+      box-shadow: none;
+    }
+
+    .uploaded-indicator {
+      display: none;
+      font-weight: 600;
+      padding: 4px 10px;
+      background: #198754;
+      color: #fff;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-left: 8px;
+      margin-top: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .uploaded-indicator.show {
+      display: inline-block;
+    }
+
+    .spinner {
+      display: none;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #0077b6;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .button-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pagination {
+      margin-top: 20px;
+      padding: 10px 0; /* atas-bawah 10px */
+    }
+
+    .page-btn {
+       background-color: #0779af;  /* warna dasar (biru gelap) */
+       color: white;
+       border: none;
+       padding: 8px 12px;
+       margin: 2px;
+       border-radius: 4px;
+       cursor: pointer;
+       transition: background-color 0.3s, transform 0.2s;
+    }
+
+   .page-btn:hover {
+      background-color: #0074a2;  /* warna saat dihover (biru lebih terang) */
+      transform: scale(1.05);     /* sedikit membesar */
+   }
+
+   .page-btn:active {
+      transform: scale(0.95);     /* sedikit mengecil saat diklik */
+   }
+
+   .page-btn.active {
+      background-color: #00152a !important;/* warna tombol aktif (misalnya lebih gelap) */
+      color: white !important;
+   }
+  
+.btn-kembali {
+  position: fixed;
+  bottom: 20px;          /* jarak dari bawah */
+  right: 3px;           /* jarak dari kanan */
+  padding: 10px 7px;
+  background-color: #125bda;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  z-index: 9999;         /* tetap di atas konten */
+  transition: bottom 0.3s ease;  /* animasi halus pas naik */
+}
+  body h2 {
+    text-align: center;   /* bikin teks rata tengah */
+    font-size: 28px;      /* opsional: perbesar font */
+    margin: 30px 0;       /* kasih jarak atas bawah */
+  }
+  </style>
+</head>
+
+<body> 
+  <h2>LKE Desa Tubang Raeng</h2>
+    <button onclick="goBack()" class="btn-kembali">Kembali</button>
+<!-- Table halaman 1 -->
+ <!-- Sub pertanyaan a -->
+<table class="table-page" data-page="1">
+  <tr>
+    <th colspan="7">I. TATA KELOLA DESA CANTIK DI DESA/KELURAHAN</th>
+  </tr>
+  <tr>
+    <th colspan="7">1. Agen/Komunitas Statistik</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="1"
+       data-indikator="I. TATA KELOLA DESA CANTIK DI DESA/KELURAHAN"
+       data-pertanyaan="1. Agen/Komunitas Statistik"
+       data-subpertanyaan="a">
+
+    <td>a</td>
+    <td>Apakah desa/kelurahan sudah melakukan penunjukan Agen/Komunitas Statistik untuk memastikan bahwa pengetahuan statistik yang diperoleh selama pembinaan tetap dapat dilaksanakan di desa/kelurahan secara berkelanjutan?</td>
+    <td>
+      <select name="jawaban-I1a" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="I1a_Jawaban1">Ya sudah, bisa menunjukkan surat penunjukan dari Kepala Desa/Kelurahan dan aktif dalam penyelenggaraan kegiatan statistik di desa/kelurahan</option>
+        <option value="I1a_Jawaban2">Ya sudah, bisa menunjukkan surat penunjukan dari Kepala Desa/Kelurahan tapi tidak aktif dalam penyelenggaraan kegiatan statistik di desa/kelurahan</option>
+        <option value="I1a_Jawaban3">Ya sudah, tidak bisa menunjukkan surat penunjukan dari Kepala Desa/Kelurahan</option>
+        <option value="I1a_Jawaban4">Belum ditunjuk agen statistik di desa/kelurahan</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Agen Statistik adalah orang yang ditunjuk kepala desa/lurah dan telah mendapatkan pelatihan terkait statistik dari BPS. Agen statistik bertugas untuk meningkatkan pengelolaan statistik di desa/kelurahan serta menyebarkan pemahaman tentang statistik, termasuk kepada masyarakat luas.</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan a -->
+  <tr>
+    <th colspan="7">2. Keberlanjutan Desa Cantik di Desa/Kelurahan</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="2" 
+    data-indikator="I. TATA KELOLA DESA CANTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="2. Keberlanjutan Desa Cantik di Desa/Kelurahan" 
+    data-subpertanyaan="a">
+
+    <td>a</td>
+    <td>Jumlah agen statistik di desa/kelurahan</td>
+    <td>
+      <select name="jawaban-I2a" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="I2a_Jawaban1">Lebih dari 1 orang</option>
+        <option value="I2a_Jawaban2">1 orang</option>
+        <option value="I2a_Jawaban3">Tidak ada agen</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">-</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+<!-- Sub pertanyaan b -->
+  <tr data-id="3" 
+    data-indikator="I. TATA KELOLA DESA CANTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="2. Keberlanjutan Desa Cantik di Desa/Kelurahan" 
+    data-subpertanyaan="b">
+
+    <td>b</td>
+    <td>Apakah ada agen statistik yang merupakan aparat desa/kelurahan (kaur/kasi/staf)</td>
+    <td>
+      <select name="jawaban-I2b" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="I2b_Jawaban1">Ya</option>
+        <option value="I2b_Jawaban2">Tidak</option>
+        <option value="I2b_Jawaban3">Tidak ada agen</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">-</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+</table>
+
+
+<!-- Table halaman 2 -->
+ <!-- Sub pertanyaan a -->
+<table class="table-page" data-page="2" style="display:none";>
+  <tr>
+    <th colspan="7">II. KAPASITAS STATISTIK DI DESA/KELURAHAN</th>
+  </tr>
+  <tr>
+    <th colspan="7">1. Pembinaan statistik</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="4"
+       data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN"
+       data-pertanyaan="1. Pembinaan statistik"
+       data-subpertanyaan="a">
+
+    <td>a</td>
+    <td>Apakah telah dilaksanakan pembinaan literasi statistik di desa/kelurahan?</td>
+    <td>
+      <select name="jawaban-II1a" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II1a_Jawaban1">Telah dilaksanakan pembinaan literasi statistik kepada agen statistik, aparat desa dan masyarakat</option>
+        <option value="II1a_Jawaban2">Telah dilaksanakan pembinaan literasi statistik kepada agen statistik dan aparat desa</option>
+        <option value="II1a_Jawaban3">Telah dilaksanakan pembinaan literasi statistik kepada agen statistik</option>
+        <option value="II1a_Jawaban4">Belum dilaksanakan pembinaan literasi statistik</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">LIterasi statistik yang dimaksud dalam Program Desa Cantik adalah kemampuan aparat desa dalam memahami, memaknai, mengelola, serta menyajikan data statistik baik dalam bentuk tabel ataupun grafik</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+   <!-- Sub pertanyaan a -->
+  <tr>
+    <th colspan="7">2. Keberlanjutan Desa Cantik di Desa/Kelurahan</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="5" 
+    data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="2. Identifikasi Kebutuhan Data" 
+    data-subpertanyaan="a">
+
+    <td>a</td>
+    <td>Dalam menyusun program/kegiatan, apakah desa/kelurahan sudah melakukan identifikasi data yang dibutuhkan?</td>
+    <td>
+      <select name="jawaban-II2a" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II2a_Jawaban1">Ya, ada dokumentasi</option>
+        <option value="II2a_Jawaban2">Ya, tidak ada dokumentasi</option>
+        <option value="II2a_Jawaban3">Ada upaya, belum dilakukan</option>
+        <option value="II2a_Jawaban4">Tidak melakukan identifikasi</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">-</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan a1 -->
+  <tr>
+    <th colspan="7">3. Pengumpulan/Inventarisasi Data</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="6" 
+    data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="3. Pengumpulan/Inventarisasi Data" 
+    data-subpertanyaan="a1">
+
+    <td>a1</td>
+    <td>Apakah desa/kelurahan melakukan pengumpulan/Inventarisasi data lengkap sesuai kebutuhan desa/kelurahan? seperti: Kuesioner yang digunakan untuk pendataan</td>
+    <td>
+      <select name="jawaban-II3a1" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II3a1_Jawaban1">Ya</option>
+        <option value="II3a1_Jawaban2">Tidak</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Pegumpulan/Inventarisasi Data yang dimaksud adalah kegiatan pegumpulan/inventarisasi data baik secara primer maupun sekunder yang dilakukan secara mandiri oleh Desa/Kelurahan sesuai dengan kebutuhan desa/kelurahan (Kuesioner Identifikasi Kebutuhan desa/kelurahan 2025 Rincian 901)</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+<!-- Sub pertanyaan a2 -->
+  <tr data-id="7" 
+    data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="3. Pengumpulan/Inventarisasi Data" 
+    data-subpertanyaan="a2">
+
+    <td>a2</td>
+    <td>Apakah desa/kelurahan melakukan pengumpulan/Inventarisasi data lengkap sesuai kebutuhan desa/kelurahan? seperti: Rancangan Output (rancangan output statistik yang akan dihasilkan, dapat berupa dummy grafik atau tabel)</td>
+    <td>
+      <select name="jawaban-II3a2" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II3a2_Jawaban1">Ya</option>
+        <option value="II3a2_Jawaban2">Tidak</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Pegumpulan/Inventarisasi Data yang dimaksud adalah kegiatan pegumpulan/inventarisasi data baik secara primer maupun sekunder yang dilakukan secara mandiri oleh Desa/Kelurahan sesuai dengan kebutuhan desa/kelurahan (Kuesioner Identifikasi Kebutuhan desa/kelurahan 2025 Rincian 901)</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan a3 -->
+  <tr data-id="8" 
+    data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="3. Pengumpulan/Inventarisasi Data" 
+    data-subpertanyaan="a3">
+
+    <td>a3</td>
+    <td>Apakah desa/kelurahan melakukan pengumpulan/Inventarisasi data lengkap sesuai kebutuhan desa/kelurahan? seperti: Buku Pedoman/Petunjuk Teknis</td>
+    <td>
+      <select name="jawaban-II3a3" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II3a3_Jawaban1">Ya</option>
+        <option value="II3a3_Jawaban2">Tidak</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Pegumpulan/Inventarisasi Data yang dimaksud adalah kegiatan pegumpulan/inventarisasi data baik secara primer maupun sekunder yang dilakukan secara mandiri oleh Desa/Kelurahan sesuai dengan kebutuhan desa/kelurahan (Kuesioner Identifikasi Kebutuhan desa/kelurahan 2025 Rincian 901)</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan a4 -->
+  <tr data-id="9" 
+    data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="3. Pengumpulan/Inventarisasi Data" 
+    data-subpertanyaan="a4">
+
+    <td>a4</td>
+    <td>Apakah desa/kelurahan melakukan pengumpulan/Inventarisasi data lengkap sesuai kebutuhan desa/kelurahan? seperti: SOP Kegiatan</td>
+    <td>
+      <select name="jawaban-II3a4" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II3a4_Jawaban1">Ya</option>
+        <option value="II3a4_Jawaban2">Tidak</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Pegumpulan/Inventarisasi Data yang dimaksud adalah kegiatan pegumpulan/inventarisasi data baik secara primer maupun sekunder yang dilakukan secara mandiri oleh Desa/Kelurahan sesuai dengan kebutuhan desa/kelurahan (Kuesioner Identifikasi Kebutuhan desa/kelurahan 2025 Rincian 901)</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan a5 -->
+  <tr data-id="10" 
+    data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="3. Pengumpulan/Inventarisasi Data" 
+    data-subpertanyaan="a5">
+
+    <td>a5</td>
+    <td>Apakah desa/kelurahan melakukan pengumpulan/Inventarisasi data lengkap sesuai kebutuhan desa/kelurahan? seperti: Pelatihan/Briefing Petugas</td>
+    <td>
+      <select name="jawaban-II3a5" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II3a5_Jawaban1">Ya</option>
+        <option value="II3a5_Jawaban2">Tidak</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Pegumpulan/Inventarisasi Data yang dimaksud adalah kegiatan pegumpulan/inventarisasi data baik secara primer maupun sekunder yang dilakukan secara mandiri oleh Desa/Kelurahan sesuai dengan kebutuhan desa/kelurahan (Kuesioner Identifikasi Kebutuhan desa/kelurahan 2025 Rincian 901)</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan a6 -->
+  <tr data-id="11" 
+    data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="3. Pengumpulan/Inventarisasi Data" 
+    data-subpertanyaan="a6">
+
+    <td>a6</td>
+    <td>Apakah desa/kelurahan melakukan pengumpulan/Inventarisasi data lengkap sesuai kebutuhan desa/kelurahan? seperti: Data hasil pengumpulan (Hasil Entry/Hasil Kompilasi)</td>
+    <td>
+      <select name="jawaban-II3a6" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II3a6_Jawaban1">Ya</option>
+        <option value="II3a6_Jawaban2">Tidak</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Pegumpulan/Inventarisasi Data yang dimaksud adalah kegiatan pegumpulan/inventarisasi data baik secara primer maupun sekunder yang dilakukan secara mandiri oleh Desa/Kelurahan sesuai dengan kebutuhan desa/kelurahan (Kuesioner Identifikasi Kebutuhan desa/kelurahan 2025 Rincian 901)</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+   <!-- Sub pertanyaan a -->
+  <tr>
+    <th colspan="7">4. Pengolahan Data</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="12" 
+    data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+    data-pertanyaan="4. Pengolahan Data" 
+    data-subpertanyaan="a">
+
+    <td>a</td>
+    <td>Apakah agen statistik desa/kelurahan mampu melakukan pengolahan data dalam bentuk tabel dan grafik?</td>
+    <td>
+      <select name="jawaban-II4a" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="II4a_Jawaban1">Ya agen statistik mampu mengolah data dan bisa menunjukkan hasil pengolahan berupa tabel (minimal tabel 2 arah sebanyak 2 tabel) dan 3 jenis grafik</option>
+        <option value="II4a_Jawaban2">Ya agen statistik mampu mengolah data dan bisa menunjukkan hasil pengolahan berupa tabel dan grafik</option>
+        <option value="II4a_Jawaban3">Ya agen statistik mampu mengolah data dan bisa menunjukkan hasil pengolahan berupa tabel</option>
+        <option value="II4a_Jawaban4">Agen Statistik belum bisa mengolah data</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Tabel adalah kumpulan data terkait yang disimpan dalam format yang terdiri dari kolom, dan baris. Sedangkan, grafik adalah kumpulan data dari beberapa tabel yang disajikan atau ditampilkan dalam bentuk gambar, seperti persegi, lingkaran, tabung, segitiga, dan lain-lain.</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+<tr>
+  <th colspan="7">5. Penyajian Data</th>
+</tr>
+<tr>
+  <th>Bagian</th>
+  <th>Pertanyaan</th>
+  <th>Jawaban</th>
+  <th>Skor</th>
+  <th>Penjelasan</th>
+  <th>Syarat Bukti Dukung</th>
+  <th>Bukti Dukung</th>
+</tr>
+
+<!-- Sub pertanyaan a1 -->
+<tr data-id="13" 
+  data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+  data-pertanyaan="5. Penyajian Data" 
+  data-subpertanyaan="a1">
+
+  <td>a1</td>
+  <td>Apakah agen statistik desa/kelurahan mampu menyajikan data untuk masyarakat luas dalam bentuk: Monografi desa/kelurahan</td>
+  <td>
+    <select name="jawaban-II5a1" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="II5a1_Jawaban1">Ya</option>
+      <option value="II5a1_Jawaban2">Tidak</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Monografi desa dan kelurahan adalah himpunan data yang disusun oleh pemerintah desa/kelurahan secara sistematis, lengkap, akurat, dan terpadu dalam penyelenggaraan pemerintahan (Permendagri No.13 Tahun 2012).</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+
+<!-- Sub pertanyaan a2 -->
+<tr data-id="14" 
+  data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+  data-pertanyaan="5. Penyajian Data" 
+  data-subpertanyaan="a2">
+
+  <td>a2</td>
+  <td>Apakah agen statistik desa/kelurahan mampu menyajikan data untuk masyarakat luas dalam bentuk: Profil desa/kelurahan</td>
+  <td>
+    <select name="jawaban-II5a2" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="II5a2_Jawaban1">Ya</option>
+      <option value="II5a2_Jawaban2">Tidak</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Profil Desa dan Kelurahan adalah gambaran menyeluruh tentang karakter  desa dan kelurahan yang meliputi data dasar keluarga, potensi sumber  daya alam, sumber daya manusia, kelembagaan, prasarana dan sarana  serta perkembangan kemajuan dan permasalahan yang dihadapi desa  dan kelurahan (Permendagri No.12 tahun 2007)</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+
+<!-- Sub pertanyaan a3 -->
+<tr data-id="15" 
+  data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+  data-pertanyaan="5. Penyajian Data" 
+  data-subpertanyaan="a3">
+
+  <td>a3</td>
+  <td>Apakah agen statistik desa/kelurahan mampu menyajikan data untuk masyarakat luas dalam bentuk: Booklet/Leaflet infografis</td>
+  <td>
+    <select name="jawaban-II5a3" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="II5a3_Jawaban1">Ya</option>
+      <option value="II5a3_Jawaban2">Tidak</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Booklet/Leaflet Infografis adalah bentuk visual dari informasi, data, atau pengetahuan yang dimaksudkan untuk menyajikan informasi dengan cepat dan jelas. Booklet/leaflet yang dimaksud bukan hanya berupa gambar tanpa ada informasi dan terdiri dari beberapa topik.</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+
+<!-- Sub pertanyaan a4 -->
+<tr data-id="16" 
+  data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+  data-pertanyaan="5. Penyajian Data" 
+  data-subpertanyaan="a4">
+
+  <td>a4</td>
+  <td>Apakah agen statistik desa/kelurahan mampu menyajikan data untuk masyarakat luas dalam bentuk: Publikasi Menggunakan Data Potensi Desa 2024</td>
+  <td>
+    <select name="jawaban-II5a4" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="II5a4_Jawaban1">Ya</option>
+      <option value="II5a4_Jawaban2">Tidak</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Buku Publikasi Statistik adalah buku yang menyajikan data-data dalam bentuk tabel/grafik disertai dengan penjelasan dan analisis dari data tersebut. Buku publikasi harus ditandatangani minimal kepala desa/kelurahan atau camat.</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+
+<!-- Sub pertanyaan a5 -->
+<tr data-id="17" 
+  data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+  data-pertanyaan="5. Penyajian Data" 
+  data-subpertanyaan="a5">
+
+  <td>a5</td>
+  <td>Apakah agen statistik desa/kelurahan mampu menyajikan data untuk masyarakat luas dalam bentuk: Buku publikasi statistik lainnya</td>
+  <td>
+    <select name="jawaban-II5a5" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="II5a5_Jawaban1">Ya</option>
+      <option value="II5a5_Jawaban2">Tidak</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Buku Publikasi Statistik adalah buku yang menyajikan data-data dalam bentuk tabel/grafik disertai dengan penjelasan dan analisis dari data tersebut. Buku publikasi harus ditandatangani minimal kepala desa/kelurahan atau camat.</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+
+<!-- Sub pertanyaan a6 -->
+<tr data-id="18" 
+  data-indikator="II. KAPASITAS STATISTIK DI DESA/KELURAHAN" 
+  data-pertanyaan="5. Penyajian Data" 
+  data-subpertanyaan="a6">
+
+  <td>a6</td>
+  <td>Apakah agen statistik desa/kelurahan mampu menyajikan data untuk masyarakat luas dalam bentuk: Website desa/kelurahan yang menyajikan data desa/kelurahan</td>
+  <td>
+    <select name="jawaban-II5a6" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="II5a6_Jawaban1">Ya</option>
+      <option value="II5a6_Jawaban2">Tidak</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">-</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+</table>
+
+
+<!-- Table halaman 3 -->
+ <!-- Sub pertanyaan a -->
+<table class="table-page" data-page="3" style="display:none";>
+  <tr>
+    <th colspan="7">III. MANAJEMEN DATA DI DESA/KELURAHAN</th>
+  </tr>
+  <tr>
+    <th colspan="7">1. Ketersediaan Data</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="19"
+       data-indikator="III. MANAJEMEN DATA DI DESA/KELURAHAN"
+       data-pertanyaan="1. Ketersediaan Data"
+       data-subpertanyaan="a">
+
+    <td>a</td>
+    <td>Ketersediaan Data: Apakah desa/kelurahan mempunyai ragam data Profil desa/kelurahan (Prodeskel) sesuai dengan Permendagri 12 Tahun 2007? (Lampiran list ragam data dapat dilihat pada link berikut http://s.bps.go.id/List_Ragam_Data )</td>
+    <td>
+      <select name="jawaban-III1a" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="III1a_Jawaban1">Ya Ketersediaan data > 75%</option>
+        <option value="III1a_Jawaban2">Ya Ketersediaan data 50 - 75%</option>
+        <option value="III1a_Jawaban3">Ya Ketersediaan data 25 - 50%</option>
+        <option value="III1a_Jawaban4">Ya Ketersediaan data < 25% </option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Menurut Permendagri 12/2007 tentang Pedoman Penyusunan dan Pendayagunaan data Profil Desa dan Kelurahan, ada beberapa data yang harus dimiliki oleh desa/kelurahan.</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan a -->
+  <tr>
+    <th colspan="7">2. Kualitas Data</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+<tr data-id="20" 
+  data-indikator="III. MANAJEMEN DATA DI DESA/KELURAHAN"
+  data-pertanyaan="2. Kualitas Data"
+  data-subpertanyaan="a">
+
+  <td>a</td>
+  <td>Kualitas Data: Apakah data di desa/kelurahan sudah konsisten (sama) isiannya antar media publikasi?</td>
+  <td>
+    <select name="jawaban-III2a" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="III2a_Jawaban1">Ya, sebagian besar data (> 20 variabel) sudah konsisten di semua media publikasi</option>
+      <option value="III2a_Jawaban2">Ya, sebagian kecil data (< 20 variabel) sudah konsisten di semua media publikasi</option>
+      <option value="III2a_Jawaban3">Tidak, karena hanya terdapat satu media publikasi</option>
+      <option value="III2a_Jawaban4">Tidak ada media publikasi</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Konsisten artinya data yang sama yang digunakan dalam beberapa publikasi atau laporan harus tetap sama dan tidak berubah selama periode yang sama. Ini penting agar hasil yang dihasilkan dari data tersebut dapat diandalkan, diperbandingkan, dan diverifikasi dengan benar oleh orang lain/pengguna data</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+
+<!-- Sub pertanyaan b -->
+<tr data-id="21" 
+  data-indikator="III. MANAJEMEN DATA DI DESA/KELURAHAN"
+  data-pertanyaan="2. Kualitas Data"
+  data-subpertanyaan="b">
+
+  <td>b</td>
+  <td>Apakah desa/kelurahan sudah memliki metadata statistik?</td>
+  <td>
+    <select name="jawaban-III2b" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="III2b_Jawaban1">Sudah memiliki metadata kegiatan, indikator dan variabel</option>
+      <option value="III2b_Jawaban2">Sudah memiliki metadata kegiatan dan metadata indikator</option>
+      <option value="III2b_Jawaban3">Sudah memiliki metadata kegiatan</option>
+      <option value="III2b_Jawaban4">Belum tersedia</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Data yang dikumpulkan di desa memiliki standar data (konsep, definisi, klasifikasi, ukuran, satuan) serta setidaknya memiliki metadata kegiatan, indikator dan variabel.</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+
+ <!-- Sub pertanyaan a -->
+  <tr>
+    <th colspan="7">3. Akses Data</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="22"
+       data-indikator="III. MANAJEMEN DATA DI DESA/KELURAHAN"
+       data-pertanyaan="3. Akses Data"
+       data-subpertanyaan="a">
+
+    <td>a</td>
+    <td>Apakah desa/kelurahan membuka akses data untuk pihak luar yang membutuhkan dalam bentuk website/laporan/buku?</td>
+    <td>
+      <select name="jawaban-III3a" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="III3a_Jawaban1">Data desa/kelurahan bisa diakses melalui format cetak (print/copy), dan softfile (pdf, Ms word), dan didownload melalui website desa/kelurahan</option>
+        <option value="III3a_Jawaban2">Data desa/kelurahan bisa diakses melalui format cetak (print/copy) dan softfile (pdf, word, excel)</option>
+        <option value="III3a_Jawaban3">Data desa/kelurahan hanya bisa diakses melalui format cetak (print/copy)</option>
+        <option value="III3a_Jawaban4">Tidak tersedia website/laporan/buku yang menyajikan data desa</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Salah satu elemen penting pada tata kelola pemerintah yang baik adalah keterbukaan. Desa/kelurahan sebagai bagian dari pemerintah termasuk yang harus menjunjung prinsip keterbukaan ini. Kemudahan akses yang dimaksud adalah data publik yang dimiliki desa/kelurahan dapat diakses publik dengan cara yang mudah.</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan b -->
+<tr data-id="23" 
+  data-indikator="III. MANAJEMEN DATA DI DESA/KELURAHAN"
+  data-pertanyaan="3. Akses Data"
+  data-subpertanyaan="b">
+
+  <td>b</td>
+  <td>Apakah terdapat SOP atau prosedur permintaan data desa/kelurahan? </td>
+  <td>
+    <select name="jawaban-III3b" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="III3b_Jawaban1">SOP Permintaan data yang terdiri dari (1) Mengunjungi langsung ke kantor desa/kelurahan; (2) Akses permintaan melalui Media Sosial (WA, Akun Medsos); dan (3) Akses permintaan melalui Website</option>
+      <option value="III3b_Jawaban2">SOP Permintaan data yang terdiri dari (1) Mengunjungi langsung ke kantor desa/kelurahan; (2) Akses permintaan melalui Media Sosial (WA, Akun Medsos)</option>
+      <option value="III3b_Jawaban3">SOP Permintaan data secara langsung ke kantor desa/kelurahan</option>
+      <option value="III3b_Jawaban4">Tidak terdapat SOP permintaan data</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Prosedur maksudnya adalah serangkaian langkah atau aturan yang harus diikuti oleh individu atau organisasi yang ingin mengakses atau memperoleh informasi dari lembaga pemerintah</span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+
+<!-- Sub pertanyaan a -->
+  <tr>
+    <th colspan="7">4. Pemutakhiran Data</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="24"
+       data-indikator="III. MANAJEMEN DATA DI DESA/KELURAHAN"
+       data-pertanyaan="4. Pemutakhiran Data"
+       data-subpertanyaan="a">
+
+    <td>a</td>
+    <td>Apakah data di desa/kelurahan selalu dimutakhirkan/diupdate? </td>
+    <td>
+      <select name="jawaban-III4a" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="III4a_Jawaban1">Data rutin (minimal 5 indikator) dimutakhirkan dan dapat menunjukkan kondisi data termutakhir selama 3 series terakhir berturut-turut (bulanan/semesteran/tahunan)</option>
+        <option value="III4a_Jawaban2">Data rutin (minimal 5 indikator) dimutakhirkan dan dapat menunjukkan kondisi data termutakhir selama 2 series terakhir berturut-turut (bulanan/semesteran/tahunan)</option>
+        <option value="III4a_Jawaban3">Data (minimal 5 indikator) pernah dimutakhirkan, namun tidak secara rutin</option>
+        <option value="III4a_Jawaban4">Data tidak dimutakhirkan</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">Pemutakhiran data pemerintah merujuk pada proses pembaruan atau penyegaran data/informasi yang dikelola oleh desa/kelurahan</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan a -->
+  <tr>
+    <th colspan="7">5. Kebermanfaatan Program Desa Cantik</th>
+  </tr>
+  <tr>
+    <th>Bagian</th>
+    <th>Pertanyaan</th>
+    <th>Jawaban</th>
+    <th>Skor</th>
+    <th>Penjelasan</th>
+    <th>Syarat Bukti Dukung</th>
+    <th>Bukti Dukung</th>
+  </tr>
+
+  <tr data-id="25"
+       data-indikator="III. MANAJEMEN DATA DI DESA/KELURAHAN"
+       data-pertanyaan="5. Kebermanfaatan Program Desa Cantik"
+       data-subpertanyaan="a1">
+
+    <td>a1</td>
+    <td>Apakah data yang dibutuhkan hasil identifikasi kebutuhan desa/kelurahan dapat disediakan melalui kegiatan Desa Cantik? </td>
+    <td>
+      <select name="jawaban-III5a1" style="width: 100%; white-space: normal;">
+        <option value="">-- Pilih Jawaban --</option>
+        <option value="III5a1_Jawaban1">Ya</option>
+        <option value="III5a1_Jawaban2">Tidak</option>
+      </select>
+    </td>
+    <td><span class="skor">-</span></td>
+    <td><span class="penjelasan-text">-</span></td>
+    <td><span class="syarat">-</span></td>
+    <td>
+      <input type="file" class="bukti" multiple>
+      <div class="button-group">
+        <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+        <button class="upload-ulang" disabled>Upload Ulang</button>
+      </div>
+      <span class="uploaded-indicator">✔ Sudah Upload</span>
+    </td>
+  </tr>
+
+  <!-- Sub pertanyaan b -->
+<tr data-id="26" 
+  data-indikator="III. MANAJEMEN DATA DI DESA/KELURAHAN"
+  data-pertanyaan="5. Kebermanfaatan Program Desa Cantik"
+  data-subpertanyaan="a2">
+
+  <td>a2</td>
+  <td>Jika ya, apakah data tersebut sudah dimaanfaatkan untuk program pembangunan di Desa?</td>
+  <td>
+    <select name="jawaban-III5a2" style="width: 100%; white-space: normal;">
+      <option value="">-- Pilih Jawaban --</option>
+      <option value="III5a2_Jawaban1">Ya</option>
+        <option value="III5a2_Jawaban2">Tidak</option>
+    </select>
+  </td>
+  <td><span class="skor">-</span></td>
+  <td><span class="penjelasan-text">Pemanfaatan minimal dapat berupa rancangan yang sudah disepakati aparat desa melalui forum masyarakat desa. </span></td>
+  <td><span class="syarat">-</span></td>
+  <td>
+    <input type="file" class="bukti" multiple>
+    <div class="button-group">
+      <button class="kirim" disabled>Kirim<span class="spinner"></span></button>
+      <button class="upload-ulang" disabled>Upload Ulang</button>
+    </div>
+    <span class="uploaded-indicator">✔ Sudah Upload</span>
+  </td>
+</tr>
+</table>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button class="page-btn" data-page="prev">&lt;</button>
+  <button class="page-btn active" data-page="1">1</button>
+  <button class="page-btn" data-page="2">2</button>
+  <button class="page-btn" data-page="3">3</button>
+  <button class="page-btn" data-page="next">&gt;</button>
+</div>
+
+<script>
+  const webAppUrl = 'https://script.google.com/macros/s/AKfycbyk9uNxkfUa1Q00Jc5xsSHzSCFc6etSShjGbDwBAlJUFmnnKia3GjZHgp_4AJeLxAm8/exec';
+  const parentFolderId = '1f_aJXLJzBSQaWMpPcFruSoF9LHP8RxtU';
+  const sheetId = '1cyfwlNfx7SvTh4HKZb4CsWnO-AQnNCclpdy5bGpL1gU';
+
+const syaratData = {
+    I1a_Jawaban1: 'Surat Keputusan/Surat Penunjukan Agen Statistik di desa/kelurahan serta penjelesan dan dokumentasi kegiatan yang dilakukan agen statistik (Keaktifan agen dapat dilihat dari: 1). Daftar hadir rapat kehadiran agen statistik, 2). Dokumentasi berupa Foto dan Video pada saat kegiatan-kegiatan Desa Cantik)',
+    I1a_Jawaban2: 'Surat Keputusan/Surat Penunjukan Agen Statistik di desa/kelurahan serta penjelesan dan dokumentasi kegiatan yang dilakukan agen statistik',
+    I1a_Jawaban3: '-',
+    I1a_Jawaban4: '-',
+    I2a_Jawaban1: 'Surat Keputusan/Surat Penunjukan Agen Statistik di desa/kelurahan',
+    I2a_Jawaban2: 'Surat Keputusan/Surat Penunjukan Agen Statistik di desa/kelurahan',
+    I2a_Jawaban3: '-',
+    I2b_Jawaban1: 'Surat Keputusan/Surat Penunjukan Agen Statistik di desa/kelurahan',
+    I2b_Jawaban2: 'Surat Keputusan/Surat Penunjukan Agen Statistik di desa/kelurahan',
+    I2b_Jawaban3: '-',
+    II1a_Jawaban1: 'Undangan, notulen, dan daftar hadir  pembinaan terkait literasi statistik',
+    II1a_Jawaban2: 'Undangan, notulen, dan daftar hadir  pembinaan terkait literasi statistik',
+    II1a_Jawaban3: 'Undangan, notulen, dan daftar hadir  pembinaan terkait literasi statistik',
+    II1a_Jawaban4: '-',
+    II2a_Jawaban1: '1). Form Identifikasi yang sudah terisi lengkap. 2). Dokumentasi berupa Undangan, notulen, dan daftar hadir  terkait proses identifikasi data yang dibutuhkan',
+    II2a_Jawaban2: 'Form Identifikasi yang sudah terisi lengkap',
+    II2a_Jawaban3: 'Form belum terisi namun ada bukti undangan untuk melakukan kegiatan',
+    II2a_Jawaban4: '-',
+    II3a1_Jawaban1: 'Screenshot atau file bukti yang ditanyakan',
+    II3a1_Jawaban2: '-',
+    II3a2_Jawaban1: 'File bukti yang ditanyakan',
+    II3a2_Jawaban2: '-',
+    II3a3_Jawaban1: 'File bukti yang ditanyakan',
+    II3a3_Jawaban2: '-',
+    II3a4_Jawaban1: 'File bukti yang ditanyakan',
+    II3a4_Jawaban2: '-',
+    II3a5_Jawaban1: 'Dokumentasi kegiatan',
+    II3a5_Jawaban2: '-',
+    II3a6_Jawaban1: 'Screenshot atau file bukti yang ditanyakan',
+    II3a6_Jawaban2: '-',
+    II4a_Jawaban1: 'Tabel/grafik hasil pengolahan agen statistik dalam bentuk excel, minimal 2 tabel 2 arah dan 3 jenis grafik yang berbeda (Grafik dan Tabel harus memiliki Judul, Tahun, dan Sumber Data)',
+    II4a_Jawaban2: 'Tabel/grafik hasil pengolahan agen statistik dalam bentuk excel, tetapi tidak bisa memberikan miniaml 2 tabel 2 arah dan 3 jenis grafik yang berbeda (Grafik dan Tabel harus memiliki Judul, Tahun, dan Sumber Data)',
+    II4a_Jawaban3: 'Tabel hasil pengolahan agen statistik dalam bentuk excel (tidak ada minimal)',
+    II4a_Jawaban4: '-',
+    II5a1_Jawaban1: 'Softfile Monografi desa/kelurahan',
+    II5a1_Jawaban2: '-',
+    II5a2_Jawaban1: 'Softfile Profil desa/kelurahan',
+    II5a2_Jawaban2: '-',
+    II5a3_Jawaban1: 'Softfile Booklet/Leaflet infografis',
+    II5a3_Jawaban2: '-',
+    II5a4_Jawaban1: 'Softfile buku Publikasi Menggunakan Data Potensi Desa',
+    II5a4_Jawaban2: '-',
+    II5a5_Jawaban1: 'Softfile buku publikasi statistik',
+    II5a5_Jawaban2: '-',
+    II5a6_Jawaban1: 'Link website dan screenshoot lengkap fitur website',
+    II5a6_Jawaban2: '-',
+    III1a_Jawaban1: 'Lampiran Monografi/profil desa yang berisi list variabel dan data-data variabel',
+    III1a_Jawaban2: 'Lampiran Monografi/profil desa yang berisi list variabel dan data-data variabel',
+    III1a_Jawaban3: 'Lampiran Monografi/profil desa yang berisi list variabel dan data-data variabel',
+    III1a_Jawaban4: 'Lampiran Monografi/profil desa yang berisi list variabel dan data-data variabel',
+    III2a_Jawaban1: 'File monografi desa/profil desa, file infografis, link website dan screenshoot lengkap fitur website',
+    III2a_Jawaban2: 'File monografi desa/profil desa, file infografis, link website dan screenshoot lengkap fitur website',
+    III2a_Jawaban3: 'File monografi desa/profil desa, file infografis, link website dan screenshoot lengkap fitur website (salah satu saja karena hanya ada 1 media publikasi)',
+    III2a_Jawaban4: '-',
+    III2b_Jawaban1: 'Dokumen metadata/standar data sesuai ketentuan dalam prinsip Satu Data Indonesia (SDI)',
+    III2b_Jawaban2: 'Dokumen metadata/standar data sesuai ketentuan dalam prinsip Satu Data Indonesia (SDI)',
+    III2b_Jawaban3: 'Dokumen metadata/standar data sesuai ketentuan dalam prinsip Satu Data Indonesia (SDI)',
+    III2b_Jawaban4: '-',
+    III3a_Jawaban1: '1). Foto/tautan Tabulasi/infografis/buku/data desa yang disajikan dalam website desa. 2). Foto monografi/profil desa/data desa dalam bentuk cetak',
+    III3a_Jawaban2: '1). File/Foto Tabulasi/infografis/buku/data desa. 2). Foto monografi/profil desa/data desa dalam bentuk cetak',
+    III3a_Jawaban3: 'Foto monografi/profil desa/data desa dalam bentuk cetak',
+    III3a_Jawaban4: '-',
+    III3b_Jawaban1: 'SOP Permintaan data',
+    III3b_Jawaban2: 'SOP Permintaan data',
+    III3b_Jawaban3: 'SOP Permintaan data',
+    III3b_Jawaban4: '-',
+    III4a_Jawaban1: '1). Instrument pemutakhiran (kuesioner/ daftar pertanyaan/ dummy table). 2). Foto/screenshot data desa/kelurahan minimal 3 series terakhir (bulanan/ semesteran/ tahunan)',
+    III4a_Jawaban2: '1). Instrument pemutakhiran (kuesioner/ daftar pertanyaan/ dummy table). 2). Foto/screenshot data desa/kelurahan minimal 2 series terakhir (bulanan/ semesteran/ tahunan)',
+    III4a_Jawaban3: '1). Instrument pemutakhiran (kuesioner/ daftar pertanyaan/ dummy table). 2). Foto/screenshot data desa/kelurahan yang pernah dimutakhirkan (bulanan/ semesteran/ tahunan).',
+    III4a_Jawaban4: '-',
+    III5a1_Jawaban1: 'Output yang dihasilkan melalui kegiatan Desa Cantik (Booklet/leaflet infografis, Buku Publikasi, Website desa/kelurahan yang menyajikan data, dll)',
+    III5a1_Jawaban2: '-',
+    III5a2_Jawaban1: 'Rancangan yang sudah disepakati',
+    III5a2_Jawaban2: '-'
+  };
+
+
+  document.querySelectorAll('tr[data-id]').forEach(row => {
+    const id = row.dataset.id;
+    const indikator = row.dataset.indikator;
+    const pertanyaan = row.dataset.pertanyaan;
+    const subPertanyaan = row.dataset.subpertanyaan;
+
+    const radios = row.querySelectorAll('input[type="radio"]');
+    const select = row.querySelector('select'); // tambahkan untuk dropdown
+    const skorSpan = row.querySelector('.skor');
+    const syaratSpan = row.querySelector('.syarat');
+    const fileInput = row.querySelector('.bukti');
+    const kirimButton = row.querySelector('.kirim');
+    const uploadUlangButton = row.querySelector('.upload-ulang');
+    const uploadedIndicator = row.querySelector('.uploaded-indicator');
+
+    const spinner = document.createElement('span');
+    spinner.className = 'spinner';
+    spinner.style.display = 'none';
+    spinner.style.marginLeft = '8px';
+    spinner.innerHTML = '⏳';
+    kirimButton.appendChild(spinner);
+
+    let lastChecked = null;
+
+    const saved = JSON.parse(localStorage.getItem('row-' + id) || '{}');
+
+     function getSkor(value) {
+        switch (value) {
+        case 'I1a_Jawaban1': return 3;
+        case 'I1a_Jawaban2': return 2;
+        case 'I1a_Jawaban3': return 1;
+        case 'I1a_Jawaban4': return 0;
+        case 'I2a_Jawaban1': return 2;
+        case 'I2a_Jawaban2': return 1;
+        case 'I2a_Jawaban3': return 0;
+        case 'I2b_Jawaban1': return 2;
+        case 'I2b_Jawaban2': return 1;
+        case 'I2b_Jawaban3': return 0;
+        case 'II1a_Jawaban1': return 3;
+        case 'II1a_Jawaban2': return 2;
+        case 'II1a_Jawaban3': return 1;
+        case 'II1a_Jawaban4': return 0;
+        case 'II2a_Jawaban1': return 3;
+        case 'II2a_Jawaban2': return 2;
+        case 'II2a_Jawaban3': return 1;
+        case 'II2a_Jawaban4': return 0;
+        case 'II3a1_Jawaban1': return 1;
+        case 'II3a1_Jawaban2': return 0;
+        case 'II3a2_Jawaban1': return 1;
+        case 'II3a2_Jawaban2': return 0;
+        case 'II3a3_Jawaban1': return 1;
+        case 'II3a3_Jawaban2': return 0;
+        case 'II3a4_Jawaban1': return 1;
+        case 'II3a4_Jawaban2': return 0;
+        case 'II3a5_Jawaban1': return 1;
+        case 'II3a5_Jawaban2': return 0;
+        case 'II3a6_Jawaban1': return 1;
+        case 'II3a6_Jawaban2': return 0;
+        case 'II4a_Jawaban1': return 3;
+        case 'II4a_Jawaban2': return 2;
+        case 'II4a_Jawaban3': return 1;
+        case 'II4a_Jawaban4': return 0;
+        case 'II5a1_Jawaban1': return 1;
+        case 'II5a1_Jawaban2': return 0;
+        case 'II5a2_Jawaban1': return 1;
+        case 'II5a2_Jawaban2': return 0;
+        case 'II5a3_Jawaban1': return 1;
+        case 'II5a3_Jawaban2': return 0;
+        case 'II5a4_Jawaban1': return 1;
+        case 'II5a4_Jawaban2': return 0;
+        case 'II5a5_Jawaban1': return 1;
+        case 'II5a5_Jawaban2': return 0;
+        case 'II5a6_Jawaban1': return 1;
+        case 'II5a6_Jawaban2': return 0;
+        case 'III1a_Jawaban1': return 4;
+        case 'III1a_Jawaban2': return 3;
+        case 'III1a_Jawaban3': return 2;
+        case 'III1a_Jawaban4': return 1;
+        case 'III2a_Jawaban1': return 3;
+        case 'III2a_Jawaban2': return 2;
+        case 'III2a_Jawaban3': return 1;
+        case 'III2a_Jawaban4': return 0;
+        case 'III2b_Jawaban1': return 3;
+        case 'III2b_Jawaban2': return 2;
+        case 'III2b_Jawaban3': return 1;
+        case 'III2b_Jawaban4': return 0;
+        case 'III3a_Jawaban1': return 3;
+        case 'III3a_Jawaban2': return 2;
+        case 'III3a_Jawaban3': return 1;
+        case 'III3a_Jawaban4': return 0;
+        case 'III3b_Jawaban1': return 3;
+        case 'III3b_Jawaban2': return 2;
+        case 'III3b_Jawaban3': return 1;
+        case 'III3b_Jawaban4': return 0;
+        case 'III4a_Jawaban1': return 3;
+        case 'III4a_Jawaban2': return 2;
+        case 'III4a_Jawaban3': return 1;
+        case 'III4a_Jawaban4': return 0;
+        case 'III5a1_Jawaban1': return 1;
+        case 'III5a1_Jawaban2': return 0;
+        case 'III5a2_Jawaban1': return 1;
+        case 'III5a2_Jawaban2': return 0;
+        default: return '-';
+      }
+    }
+
+    if (saved.answer) {
+      radios.forEach(radio => {
+        if (radio.value === saved.answer) {
+          radio.checked = true;
+          lastChecked = radio;
+        }
+      });
+      if (select) {
+        select.value = saved.answer;
+      }
+      const currentSkor = getSkor(saved.answer);
+      skorSpan.textContent = currentSkor;
+      syaratSpan.textContent = syaratData[saved.answer] || '-';
+      localStorage.setItem('row-' + id, JSON.stringify({
+        answer: saved.answer,
+        skor: currentSkor,
+        syarat: syaratData[saved.answer] || '-',
+        uploaded: saved.uploaded || false
+      }));
+
+      // ✅ Sembunyikan file input jika syarat "-"
+      if (syaratSpan.textContent === '-') {
+        fileInput.style.display = 'none';
+      } else {
+        fileInput.style.display = '';
+      }
+    } else {
+      skorSpan.textContent = '-';
+      syaratSpan.textContent = '-';
+      fileInput.style.display = '';
+    }
+
+    if (saved.uploaded) {
+      radios.forEach(r => r.disabled = true);
+      if (select) select.disabled = true;
+      fileInput.disabled = true;
+      kirimButton.disabled = true;
+      uploadUlangButton.disabled = false;
+      uploadedIndicator.classList.add('show');
+    }
+
+    radios.forEach(radio => {
+      radio.addEventListener('click', () => {
+        if (lastChecked === radio) {
+          radio.checked = false;
+          lastChecked = null;
+          skorSpan.textContent = '-';
+          syaratSpan.textContent = '-';
+          fileInput.style.display = '';
+          localStorage.setItem('row-' + id, JSON.stringify({
+            answer: '',
+            skor: '',
+            syarat: '',
+            uploaded: saved.uploaded || false
+          }));
+          kirimButton.disabled = fileInput.files.length === 0;
+          if (select) select.value = '';
+        } else {
+          lastChecked = radio;
+          const skor = getSkor(radio.value);
+          skorSpan.textContent = skor;
+          syaratSpan.textContent = syaratData[radio.value] || '-';
+          localStorage.setItem('row-' + id, JSON.stringify({
+            answer: radio.value,
+            skor: skor,
+            syarat: syaratData[radio.value] || '-',
+            uploaded: saved.uploaded || false
+          }));
+
+          // ✅ Cek apakah syarat "-" → sembunyikan file input
+          if (syaratSpan.textContent === '-') {
+            fileInput.style.display = 'none';
+            kirimButton.disabled = false;
+          } else {
+            fileInput.style.display = '';
+            kirimButton.disabled = fileInput.files.length === 0;
+          }
+
+          if (select) select.value = radio.value;
+        }
+      });
+    });
+
+    if (select) {
+      select.addEventListener('change', () => {
+        const selectedValue = select.value;
+        if (selectedValue === '') {
+          skorSpan.textContent = '-';
+          syaratSpan.textContent = '-';
+          fileInput.style.display = '';
+          localStorage.setItem('row-' + id, JSON.stringify({
+            answer: '',
+            skor: '',
+            syarat: '',
+            uploaded: saved.uploaded || false
+          }));
+          kirimButton.disabled = true;
+          radios.forEach(r => r.checked = false);
+          lastChecked = null;
+        } else {
+          const skor = getSkor(selectedValue);
+          skorSpan.textContent = skor;
+          syaratSpan.textContent = syaratData[selectedValue] || '-';
+          localStorage.setItem('row-' + id, JSON.stringify({
+            answer: selectedValue,
+            skor: skor,
+            syarat: syaratData[selectedValue] || '-',
+            uploaded: saved.uploaded || false
+          }));
+
+          if (syaratSpan.textContent === '-') {
+            fileInput.style.display = 'none';
+            kirimButton.disabled = false;
+          } else {
+            fileInput.style.display = '';
+            kirimButton.disabled = fileInput.files.length === 0;
+          }
+
+          radios.forEach(r => {
+            if (r.value === selectedValue) {
+              r.checked = true;
+              lastChecked = r;
+            } else {
+              r.checked = false;
+            }
+          });
+        }
+      });
+    }
+
+    fileInput.addEventListener('change', () => {
+      const selected = Array.from(radios).some(r => r.checked) || (select && select.value !== '');
+      kirimButton.disabled = fileInput.files.length === 0 || !selected;
+    });
+
+    kirimButton.addEventListener('click', () => {
+      const selectedRadio = Array.from(radios).find(r => r.checked);
+      const selectedValue = select ? select.value : '';
+      const answerValue = selectedRadio ? selectedRadio.value : selectedValue;
+      const currentSyarat = syaratSpan.textContent;
+
+      if (!answerValue) {
+        alert('Pilih jawaban!');
+        return;
+      }
+
+      if (currentSyarat === '-') {
+        // ✅ Kirim langsung TANPA file
+        spinner.style.display = 'inline-block';
+        kirimButton.disabled = true;
+
+        const payload = new URLSearchParams();
+        payload.append('indikator', indikator);
+        payload.append('pertanyaan', pertanyaan);
+        payload.append('subPertanyaan', subPertanyaan);
+        payload.append('jawaban', answerValue);
+        payload.append('poin', skorSpan.textContent);
+        payload.append('catatan', currentSyarat);
+        payload.append('parentFolderId', parentFolderId);
+        payload.append('sheetId', sheetId);
+        payload.append('uploadUlang', saved.uploaded ? 'true' : 'false');
+
+        fetch(webAppUrl, { method: 'POST', body: payload })
+          .then(res => res.json())
+          .then(data => {
+            spinner.style.display = 'none';
+            if (data.status === 'success') {
+              alert('Data berhasil dikirim tanpa file.');
+              kirimButton.disabled = true;
+              uploadUlangButton.disabled = false;
+              uploadedIndicator.classList.add('show');
+              radios.forEach(r => r.disabled = true);
+              if (select) select.disabled = true;
+              saved.uploaded = true;
+              localStorage.setItem('row-' + id, JSON.stringify({
+                answer: answerValue,
+                skor: skorSpan.textContent,
+                syarat: currentSyarat,
+                uploaded: true
+              }));
+            } else {
+              alert('Gagal: ' + data.message);
+              kirimButton.disabled = false;
+            }
+          })
+          .catch(err => {
+            spinner.style.display = 'none';
+            alert('Error: ' + err);
+            kirimButton.disabled = false;
+          });
+        return;
+      }
+
+      // Jika ada file yang harus diupload
+      if (fileInput.files.length === 0) {
+        alert('Pilih file!');
+        return;
+      }
+
+      spinner.style.display = 'inline-block';
+      kirimButton.disabled = true;
+
+      const totalFiles = fileInput.files.length;
+      let uploadedCount = 0;
+
+      for (let i = 0; i < totalFiles; i++) {
+        const file = fileInput.files[i];
+        const reader = new FileReader();
+        reader.onload = function () {
+          const base64 = reader.result.split(',')[1];
+          const payload = new URLSearchParams();
+          payload.append('indikator', indikator);
+          payload.append('pertanyaan', pertanyaan);
+          payload.append('subPertanyaan', subPertanyaan);
+          payload.append('jawaban', answerValue);
+          payload.append('poin', skorSpan.textContent);
+          payload.append('catatan', currentSyarat);
+          payload.append('fileName', file.name);
+          payload.append('mimeType', file.type);
+          payload.append('file', base64);
+          payload.append('parentFolderId', parentFolderId);
+          payload.append('sheetId', sheetId);
+          payload.append('uploadUlang', saved.uploaded ? 'true' : 'false');
+
+          fetch(webAppUrl, { method: 'POST', body: payload })
+            .then(res => res.json())
+            .then(data => {
+              if (data.status === 'success') {
+                uploadedCount++;
+                if (uploadedCount === totalFiles) {
+                  spinner.style.display = 'none';
+                  alert('file berhasil diupload.');
+                  fileInput.disabled = true;
+                  kirimButton.disabled = true;
+                  uploadUlangButton.disabled = false;
+                  uploadedIndicator.classList.add('show');
+                  radios.forEach(r => r.disabled = true);
+                  if (select) select.disabled = true;
+                  saved.uploaded = true;
+                  localStorage.setItem('row-' + id, JSON.stringify({
+                    answer: answerValue,
+                    skor: skorSpan.textContent,
+                    syarat: currentSyarat,
+                    uploaded: true
+                  }));
+                }
+              } else {
+                spinner.style.display = 'none';
+                alert('Gagal: ' + data.message);
+                kirimButton.disabled = false;
+              }
+            })
+            .catch(err => {
+              spinner.style.display = 'none';
+              alert('Error: ' + err);
+              kirimButton.disabled = false;
+            });
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    uploadUlangButton.addEventListener('click', () => {
+      if (confirm('Apakah anda yakin ingin upload ulang?')) {
+        fileInput.value = '';
+        fileInput.disabled = false;
+        kirimButton.disabled = true;
+        uploadUlangButton.disabled = true;
+        uploadedIndicator.classList.remove('show');
+        radios.forEach(r => r.disabled = false);
+        if (select) select.disabled = false;
+        saved.uploaded = false;
+        localStorage.setItem('row-' + id, JSON.stringify(saved));
+      }
+    });
+  });
+
+const pageButtons = document.querySelectorAll('.page-btn');
+const tables = document.querySelectorAll('.table-page');
+let currentPage = 1;
+
+pageButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const page = btn.dataset.page;
+
+    if (page === 'prev') {
+      if (currentPage > 1) currentPage--;
+    } else if (page === 'next') {
+      if (currentPage < tables.length) currentPage++;
+    } else {
+      currentPage = parseInt(page);
+    }
+
+    tables.forEach(tbl => {
+      tbl.style.display = parseInt(tbl.dataset.page) === currentPage ? '' : 'none';
+    });
+
+    pageButtons.forEach(b => b.classList.remove('active'));
+    pageButtons.forEach(b => {
+      if (parseInt(b.dataset.page) === currentPage) {
+        b.classList.add('active');
+      }
+    });
+  });
+});
+  
+
+  // fungsi untuk tombol kembali
+  function goBack() {
+    window.history.back();
+  }
+
+  // script mengatur posisi tombol biar naik kalau footer kelihatan
+window.addEventListener("scroll", function () {
+  const btn = document.querySelector(".btn-kembali");
+  const footer = document.querySelector("footer");
+  const footerRect = footer.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+
+  if (footerRect.top < windowHeight) {
+    // kalau footer kelihatan → naikkan tombol
+    btn.style.bottom = (windowHeight - footerRect.top + 20) + "px";
+  } else {
+    // posisi normal
+    btn.style.bottom = "20px";
+  }
+});
+</script>
+
+<footer>
+    <p>Hak Cipta © 2025 Kadek Didik Permana Putra</p>
+  <div class="footer-sosmed">
+    <a href="https://shorturl.at/7vg0b" target="_blank">
+      <img src="FB.png" alt="fb" class="logo-fb">
+    </a>
+    <a href="https://www.instagram.com/bpskablandak/" target="_blank">
+      <img src="IG.png" alt="ig" class="logo-ig">
+    </a>
+    <a href="https://x.com/bps_statistics" target="_blank">
+      <img src="X.png" alt="x" class="logo-x">
+    </a>
+    <a href="https://shorturl.at/jsgkQ" target="_blank">
+      <img src="YT.png" alt="yt" class="logo-yt">
+    </a>
+  </div>
+</footer>
+</body>
+</html>
